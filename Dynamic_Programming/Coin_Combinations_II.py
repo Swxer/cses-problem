@@ -4,28 +4,36 @@
 n, x = map(int, input().split())
 coins = list(map(int, input().split()))
 
-memo = {}
+# memo = {}
 MOD = 10**9 + 7
 
 
-def coin_combination(x, i):
-    if x == 0:
-        return 1
+# def coin_combination(x, i):
+#     if x == 0:
+#         return 1
 
-    if x < 0:
-        return 0
+#     if x < 0:
+#         return 0
 
-    if (x, i) in memo:
-        return memo[(x, i)]
+#     if (x, i) in memo:
+#         return memo[(x, i)]
 
-    total = 0
+#     total = 0
 
-    for j in range(i, len(coins)):
-        if j >= i:
-            total += coin_combination(x - coins[j], j)
+#     for j in range(i, len(coins)):
+#         total += coin_combination(x - coins[j], j)
 
-    memo[(x, i)] = total % MOD
-    return total
+#     memo[(x, i)] = total % MOD
+#     return total
 
 
-print(coin_combination(x, 0))
+# print(coin_combination(x, 0))
+
+dp = [0] * (x + 1)
+dp[0] = 1
+
+for c in coins:
+    for t in range(c, x + 1):
+        dp[t] = (dp[t] + dp[t - c]) % MOD
+
+print(dp[x])
